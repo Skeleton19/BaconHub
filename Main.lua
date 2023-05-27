@@ -493,8 +493,8 @@ end)
 
 local Succes = false
 local linkkey = 'https://mboost.me/a/6j1'
---rconsoleclear()
---rconsolename("BaconHub v".. MyVersion)
+rconsoleclear()
+rconsolename("BaconHub v".. MyVersion)
 rconsoleinfo("----KEY SYSTEM----")
 wait()
 setclipboard(linkkey)
