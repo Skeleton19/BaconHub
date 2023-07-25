@@ -490,89 +490,6 @@ game.Players.LocalPlayer.Chatted:Connect(function(chat)
 	end
 end)
 
-
-local Succes = false
-local linkkey = 'https://mboost.me/a/6j1'
-rconsoleclear()
-rconsolename("BaconHub v".. MyVersion)
-rconsoleinfo("----KEY SYSTEM----")
-wait()
-setclipboard(linkkey)
-rconsoleinfo("Copied the link for the key!")
-wait()
-rconsoleinfo("Write 'HELP' if you need help")
-wait()
-function getkey()
-	local key = game:HttpGet("https://mboost.me/k/18c")
-	key = key:split([[<br /><input id="key" class="round" type="text" readonly="" placeholder="Error getting key..." value="]])[2]:split([[" /><br /><button class="round">Copy</button>]])[1]
-	return key
-end
-if not isfile("BaconHubKey.txt") then
-	writefile("BaconHubKey.txt","")
-end
-function titleconsole(text,color)
-	rconsoleprint("[")
-	rconsoleprint("@@"..color.."@@")
-	rconsoleprint(text)
-	rconsoleprint("@@LIGHT_GRAY@@")
-	rconsoleprint("] ")
-end
-function keychecker(passkey)
-	local keyentered
-	rconsoleinfo("Checking key...")
-	wait(1)
-	local key = getkey()
-	local oldkey = readfile("BaconHubKey.txt")
-	if oldkey and (passkey == true or passkey == nil) then
-		keyentered = oldkey
-		rconsoleprint("@@LIGHT_MAGENTA@@")
-		rconsoleprint("Your key: ")
-		rconsoleprint("@@LIGHT_GRAY@@")
-		rconsoleprint(keyentered.."\n")
-	else
-		rconsoleinfo("Enter your key now!")
-		rconsoleprint("@@LIGHT_MAGENTA@@")
-		rconsoleprint("Your key: ")
-		rconsoleprint("@@LIGHT_GRAY@@")
-		keyentered = rconsoleinput()
-	end
-	if keyentered == nil then
-		rconsoleinfo("Enter your key now!")
-		rconsoleprint("@@LIGHT_MAGENTA@@")
-		rconsoleprint("Your key: ")
-		rconsoleprint("@@WHITE@@")
-		keyentered = rconsoleinput()
-	end
-	wait()
-	if keyentered == "LINK_KEY" then
-		setclipboard(linkkey)
-		rconsoleinfo("Copied the link for the key! write LINK_KEY")
-		keychecker(false)
-	elseif keyentered == "HELP" then
-		rconsoleinfo("'LINK_KEY' it will copy the link key")
-		keychecker(false)
-	elseif keyentered ~= key then
-		titleconsole("ERROR","LIGHT_RED")
-		rconsoleprint("WRONG KEY! Try again! need help? write this 'HELP'\n")
-		keychecker(false)
-	else
-		writefile("BaconHubKey.txt",key)
-		titleconsole("SUCCES","LIGHT_GREEN")
-		rconsoleprint("Correct!\n")
-		Succes = true
-		rconsolewarn("Closing...")
-	end
-end
-keychecker(true)
-_G.UsingHub = true
-wait(1)
-rconsoleclear()
-rconsoleclose()
-repeat
-	wait()
-until Succes == true
-wait(1)
-
 if PlaceId == 7603193259 then
 	local function yea()
 		local AutoPlayer = false
@@ -1406,8 +1323,22 @@ elseif PlaceId == 6520999642 then
 							if v:IsA("ImageLabel") then
 								if v.Position.Y.Scale <= 0.02 then
 									vim:SendKeyEvent(1,Enum.KeyCode[keke],0,nil)
+									local hold
+									repeat game:GetService("RunService").Stepped:Wait()
+										for i,e in pairs(main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:GetChildren()) do
+											if e:IsA("Frame") and e.Name == v.Name then
+												hold = e
+												break
+											end
+										end
+									until hold
+									if hold and hold.Size.Y.Scale > 0 then
+										print("Holding "..keke)
+										repeat game:GetService("RunService").Stepped:Wait() if not hold then break end until hold.Position.Y.Scale+hold.Size.Y.Scale <= 0.02
+										print("Holded "..keke)
+									end
 									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
-									print(num,keke,v.Name,v.Position.Y.Scale)
+									--print(num,keke,v.Name,v.Position.Y.Scale)
 								end
 							end
 						end
@@ -5473,7 +5404,7 @@ elseif PlaceId == 10425505725 then
 	local lengendary = false
 	local mythical = false
 	local typehatch = "x1"
-	
+
 	local DataHomeLoaded = LoadData("Home")
 	local DataSettingLoaded = LoadData("Setting")
 	local DataMicsLoaded = LoadData("Misc")
@@ -5502,7 +5433,7 @@ elseif PlaceId == 10425505725 then
 	else
 		warn("Data nil")
 	end
-	
+
 	local Toggle = Temp:Toggle({
 		Title = "Auto Egg",
 		Callback = function(Value)
@@ -5590,7 +5521,7 @@ elseif PlaceId == 10425505725 then
 		end,
 		Enabled = mythical
 	})
-	
+
 	local ButtonSaveHome = Temp:Button({
 		Title = "Save Home",
 		Callback = function()
@@ -5990,6 +5921,34 @@ else
 			Information = function(self)
 				X.Banner({
 					Text = "Load the Animbot/ESP/SELECT make by HairBaconGamming"
+				})
+			end
+		}
+	})
+	local abt11 = Home.Button({
+		Text = "Waypoint GUI",
+		Callback = function()
+			loadstring(game:HttpGetAsync("https://pastebin.com/raw/dgMYDRCy"))()
+			print("succes!")             
+		end,
+		Menu = {
+			Information = function(self)
+				X.Banner({
+					Text = "Load the Waypoint GUI make by HairBaconGamming"
+				})
+			end
+		}
+	})
+	local abt12 = Home.Button({
+		Text = "Save and load your clone script roblox pastebin",
+		Callback = function()
+			loadstring(game:HttpGetAsync("https://pastebin.com/raw/ZLzKMdb0"))()
+			print("succes!")             
+		end,
+		Menu = {
+			Information = function(self)
+				X.Banner({
+					Text = "Load the Save and load your clone script roblox pastebin make by HairBaconGamming"
 				})
 			end
 		}
