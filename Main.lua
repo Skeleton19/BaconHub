@@ -1293,7 +1293,7 @@ elseif PlaceId == 6520999642 then
 			Menu = {
 				Information = function(self)
 					X.Banner({
-						Text = "Test alert!"
+						Text = "1 is left, 2 is right"
 					})
 				end
 			}
@@ -1316,26 +1316,32 @@ elseif PlaceId == 6520999642 then
 		]]
 
 		function lol(num,keke)
-			while rs.Stepped:Wait() do
+			local antilag = 0
+			while true do
+				antilag += 1
+				if antilag > 3 then
+					antilag = 0
+					task.wait()
+				end
 				if AutoPlayer then
 					if Player > 0 then
 						for i,v in pairs(main.MatchFrame["KeySync".. Player]["Arrow".. num].Notes:GetChildren()) do
 							if v:IsA("ImageLabel") then
-								if v.Position.Y.Scale <= 0.02 then
+								if v.Position.Y.Scale <= 0.01 then
 									vim:SendKeyEvent(1,Enum.KeyCode[keke],0,nil)
-									local hold
-									repeat game:GetService("RunService").Stepped:Wait()
-										for i,e in pairs(main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:GetChildren()) do
-											if e:IsA("Frame") and e.Name == v.Name then
-												hold = e
-												break
-											end
-										end
-									until hold
+									local hold = main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:WaitForChild(v.Name,5)
+									local antilag2 = 0
 									if hold and hold.Size.Y.Scale > 0 then
-										print("Holding "..keke)
-										repeat game:GetService("RunService").Stepped:Wait() if not hold then break end until hold.Position.Y.Scale+hold.Size.Y.Scale <= 0.02
-										print("Holded "..keke)
+										repeat 
+											antilag2 += 1
+											if antilag2 > 3 then
+												antilag2 = 0
+												task.wait()
+											end
+											if not hold then 
+												break 
+											end 
+										until hold.Position.Y.Scale+hold.Size.Y.Scale <= 0.01
 									end
 									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
 									--print(num,keke,v.Name,v.Position.Y.Scale)
