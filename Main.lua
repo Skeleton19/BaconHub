@@ -1241,7 +1241,7 @@ elseif PlaceId == 6520999642 then
 			Player = DataHomeLoaded[tostring(PlaceId)]["Player"] or Player
 			X.Banner({
 				Text = [[DATA LOADED!
-AutoPlayer: ]].. tostring(AutoPlayer) ..[[
+AutoPlayer: ]].. tostring(AutoPlayer) ..[[,
 Player: ]].. tostring(Player)
 			})
 		else
