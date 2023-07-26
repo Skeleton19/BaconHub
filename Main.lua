@@ -1232,11 +1232,18 @@ elseif PlaceId == 6520999642 then
 		})
 
 		local AutoPlayer = true
+		local Player = 1
 		local DataHomeLoaded = LoadData("Home")
 		local DataSettingLoaded = LoadData("Setting")
 		local DataMicsLoaded = LoadData("Misc")
 		if DataHomeLoaded and DataHomeLoaded[tostring(PlaceId)] then
-			AutoPlayer = DataHomeLoaded[tostring(PlaceId)].AutoPlayer
+			AutoPlayer = DataHomeLoaded[tostring(PlaceId)]["AutoPlayer"] or AutoPlayer
+			Player = DataHomeLoaded[tostring(PlaceId)]["Player"] or Player
+			X.Banner({
+				Text = [[DATA LOADED!
+AutoPlayer: ]].. DataHomeLoaded[tostring(PlaceId)]["AutoPlayer"] ..[[
+Player: ]].. DataHomeLoaded[tostring(PlaceId)]["Player"]
+			})
 		else
 			warn("Data nil")
 		end
@@ -1250,8 +1257,6 @@ elseif PlaceId == 6520999642 then
 		else
 			warn("Data nil")
 		end
-
-		local Player = 0
 
 		local ButtonAutoPlayer = Y.Toggle({
 			Text = "Auto Player",
@@ -1267,6 +1272,7 @@ elseif PlaceId == 6520999642 then
 			Callback = function()
 				SaveData("Home",{
 					["AutoPlayer"] = AutoPlayer,
+					["Player"] = Player,
 				})
 				X.Banner({
 					Text = "Data Saved!"
@@ -1298,7 +1304,7 @@ elseif PlaceId == 6520999642 then
 				end
 			}
 		})
-
+		
 		--[[
 		spawn(function()
 			while wait() do
@@ -1314,38 +1320,37 @@ elseif PlaceId == 6520999642 then
 			end
 		end)
 		]]
-
+		
 		function lol(num,keke)
 			local antilag = 0
+			local oldspeed
+			local speed = 0.02
 			while true do
-				antilag += 1
-				if antilag > 3 then
-					antilag = 0
-					task.wait()
-				end
+				task.wait()
 				if AutoPlayer then
 					if Player > 0 then
 						for i,v in pairs(main.MatchFrame["KeySync".. Player]["Arrow".. num].Notes:GetChildren()) do
 							if v:IsA("ImageLabel") then
-								if v.Position.Y.Scale <= 0.01 then
+								if v.Position.Y.Scale <= speed then
 									vim:SendKeyEvent(1,Enum.KeyCode[keke],0,nil)
-									local hold = main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:WaitForChild(v.Name,5)
+									local hold = main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:WaitForChild(v.Name,0.1)
 									local antilag2 = 0
 									if hold and hold.Size.Y.Scale > 0 then
 										repeat 
-											antilag2 += 1
-											if antilag2 > 3 then
-												antilag2 = 0
-												task.wait()
-											end
+											task.wait()
 											if not hold then 
 												break 
 											end 
-										until hold.Position.Y.Scale+hold.Size.Y.Scale <= 0.01
+										until hold.Position.Y.Scale+hold.Size.Y.Scale <= speed
 									end
 									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
-									--print(num,keke,v.Name,v.Position.Y.Scale)
 								end
+								speed = (oldspeed or v.Position.Y.Scale)-v.Position.Y.Scale
+								oldspeed = v.Position.Y.Scale
+								if speed >= 1 then
+									speed = 0.02
+								end
+								break
 							end
 						end
 					end
