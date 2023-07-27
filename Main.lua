@@ -11,7 +11,7 @@ local VersionHub = HubDataDecoded.version
 print("Checking lastest version...")
 print("Lastest version: ".. VersionHub)
 
-local MyVersion = "3.2.0"
+local MyVersion = "3.3.1"
 
 print("BaconHub using version: ".. MyVersion)
 
@@ -1345,8 +1345,8 @@ AutoPlayer: ]].. tostring(AutoPlayer))
 										until hold.Position.Y.Scale+hold.Size.Y.Scale <= speed
 									end
 									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
+									break
 								end
-								break
 							end
 						end
 					end
