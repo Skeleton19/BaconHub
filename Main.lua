@@ -19,17 +19,17 @@ if _G.UsingHub then
 	return
 end
 
-if not isfile("BaconHubVersion.txt") then
-	writefile("BaconHubVersion.txt",HttpService:JSONEncode({["Version"]=VersionHub}))
+if not isfile("BaconHubVersion.json") then
+	writefile("BaconHubVersion.json",HttpService:JSONEncode({["Version"]=VersionHub}))
 else
-	local _Version = readfile("BaconHubVersion.txt")
+	local _Version = readfile("BaconHubVersion.json")
 	pcall(function()
 		_Version = HttpService:JSONDecode(_Version)
 	end)
 	if _Version then
 		if _Version.Version ~= VersionHub then
-			delfile("BaconHubVersion.txt")
-			writefile("BaconHubVersion.txt",HttpService:JSONEncode({["Version"]=VersionHub}))
+			delfile("BaconHubVersion.json")
+			writefile("BaconHubVersion.json",HttpService:JSONEncode({["Version"]=VersionHub}))
 		end
 		if _Version.Version ~= MyVersion then
 			warn("You are using out version BaconHub!")
@@ -105,16 +105,16 @@ end
 function MakeData()
 	if not isfolder("BaconHubDataVersion".. MyVersion) then
 		makefolder("BaconHubDataVersion".. MyVersion)
-		writefile("BaconHubDataVersion".. MyVersion .."\\SettingData.txt","")
-		writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt","")
-		writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt","")
-		DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt")
-		DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt")
-		DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt")
+		writefile("BaconHubDataVersion".. MyVersion .."\\SettingData.json","")
+		writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.json","")
+		writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.json","")
+		DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.json")
+		DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.json")
+		DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.json")
 	else
-		DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt")
-		DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt")
-		DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt")
+		DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.json")
+		DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.json")
+		DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.json")
 	end
 end
 
@@ -139,8 +139,8 @@ function SaveData(DataType,Data)
 			}
 		end
 		DataTable = HttpService:JSONEncode(DataTable)
-		delfile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt")
-		DataSetting = writefile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt", DataTable)
+		delfile("BaconHubDataVersion".. MyVersion.."\\SettingData.json")
+		DataSetting = writefile("BaconHubDataVersion".. MyVersion.."\\SettingData.json", DataTable)
 	elseif DataType == "Home" then
 		local DataTable 
 		pcall(function()
@@ -160,8 +160,8 @@ function SaveData(DataType,Data)
 			}
 		end
 		DataTable = HttpService:JSONEncode(DataTable)
-		delfile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt")
-		DataHome = writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt", DataTable)
+		delfile("BaconHubDataVersion".. MyVersion.."\\HomeData.json")
+		DataHome = writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.json", DataTable)
 	elseif DataType == "Mics" then
 		local DataTable 
 		pcall(function()
@@ -182,8 +182,8 @@ function SaveData(DataType,Data)
 		end
 		DataTable = HttpService:JSONEncode(DataTable)
 		print(DataTable)
-		delfile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt")
-		DataMics = writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt", DataTable)
+		delfile("BaconHubDataVersion".. MyVersion.."\\MicsData.json")
+		DataMics = writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.json", DataTable)
 		print(DataMics)
 	end
 end
@@ -292,9 +292,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(chat)
 		end)
 	elseif YESSSSS[1] == "/e" and YESSSSS[2] == "cleardata" and YESSSSS[3] ~= nil then
 		if YESSSSS[3] == "home" then
-			delfile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt")
-			writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt","")
-			DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.txt")
+			delfile("BaconHubDataVersion".. MyVersion.."\\HomeData.json")
+			writefile("BaconHubDataVersion".. MyVersion.."\\HomeData.json","")
+			DataHome = readfile("BaconHubDataVersion".. MyVersion.."\\HomeData.json")
 			pcall(function()
 				local Screen = Instance.new("ScreenGui",game.CoreGui)
 				Screen.ResetOnSpawn = false
@@ -332,9 +332,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(chat)
 				game.Debris:AddItem(Screen,2)
 			end)
 		elseif YESSSSS[3] == "setting" then
-			delfile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt")
-			writefile("BaconHubDataVersion".. MyVersion .."\\SettingData.txt","")
-			DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.txt")
+			delfile("BaconHubDataVersion".. MyVersion.."\\SettingData.json")
+			writefile("BaconHubDataVersion".. MyVersion .."\\SettingData.json","")
+			DataSetting = readfile("BaconHubDataVersion".. MyVersion.."\\SettingData.json")
 			pcall(function()
 				local Screen = Instance.new("ScreenGui",game.CoreGui)
 				Screen.ResetOnSpawn = false
@@ -372,9 +372,9 @@ game.Players.LocalPlayer.Chatted:Connect(function(chat)
 				game.Debris:AddItem(Screen,2)
 			end)
 		elseif YESSSSS[3] == "misc" then
-			delfile("BaconHubDataVersion".. MyVersion.."\\MiscData.txt")
-			writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt","")
-			DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.txt")
+			delfile("BaconHubDataVersion".. MyVersion.."\\MiscData.json")
+			writefile("BaconHubDataVersion".. MyVersion.."\\MicsData.json","")
+			DataMics = readfile("BaconHubDataVersion".. MyVersion.."\\MicsData.json")
 			pcall(function()
 				local Screen = Instance.new("ScreenGui",game.CoreGui)
 				Screen.ResetOnSpawn = false
@@ -1238,12 +1238,12 @@ elseif PlaceId == 6520999642 then
 		local DataMicsLoaded = LoadData("Misc")
 		if DataHomeLoaded and DataHomeLoaded[tostring(PlaceId)] then
 			AutoPlayer = DataHomeLoaded[tostring(PlaceId)]["AutoPlayer"] or AutoPlayer
-			Player = DataHomeLoaded[tostring(PlaceId)]["Player"] or Player
 			X.Banner({
 				Text = [[DATA LOADED!
-AutoPlayer: ]].. tostring(AutoPlayer) ..[[,
-Player: ]].. tostring(Player)
+AutoPlayer: ]].. tostring(AutoPlayer)
 			})
+			print([[DATA LOADED!
+AutoPlayer: ]].. tostring(AutoPlayer))
 		else
 			warn("Data nil")
 		end
@@ -1272,7 +1272,7 @@ Player: ]].. tostring(Player)
 			Callback = function()
 				SaveData("Home",{
 					["AutoPlayer"] = AutoPlayer,
-					["Player"] = Player,
+					--["Player"] = Player,
 				})
 				X.Banner({
 					Text = "Data Saved!"
@@ -1288,6 +1288,7 @@ Player: ]].. tostring(Player)
 			}
 		})
 
+		--[[
 		local D = Y.Dropdown({
 			Text = "PLAYER",
 			Callback = function(Value)
@@ -1305,25 +1306,25 @@ Player: ]].. tostring(Player)
 			}
 		})
 		
-		--[[
+		]]
 		spawn(function()
-			while wait() do
+			while task.wait() do
 				if AutoPlayer then
-					if plr.File.CurrentPlayer.Value == "Player1" then
-						Player = 1
-					elseif plr.File.CurrentPlayer.Value == "Player2" then
-						Player = 2
+					if plr.File.CurrentPlayer.Value then
+						if plr.File.CurrentPlayer.Value.Name == "Player1" then
+							Player = 1
+						elseif plr.File.CurrentPlayer.Value.Name == "Player2" then
+							Player = 2
+						end
 					else
 						Player = 0
 					end
 				end
 			end
 		end)
-		]]
 		
 		function lol(num,keke)
 			local antilag = 0
-			local oldspeed
 			local speed = 0.02
 			while true do
 				task.wait()
@@ -1344,11 +1345,6 @@ Player: ]].. tostring(Player)
 										until hold.Position.Y.Scale+hold.Size.Y.Scale <= speed
 									end
 									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
-								end
-								speed = (oldspeed or v.Position.Y.Scale)-v.Position.Y.Scale
-								oldspeed = v.Position.Y.Scale
-								if speed >= 1 then
-									speed = 0.02
 								end
 								break
 							end
