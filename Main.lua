@@ -72,7 +72,7 @@ else
 			repeat wait() until chatted == true
 			if no then
 				setclipboard('loadstring(game:HttpGet("https://raw.githubusercontent.com/HairBaconGamming/BaconHub/main/Main.lua"))()')
-				warn("Copied Script Lasest Version BaconHub!")
+				warn("Copied Script Latest Version BaconHub!")
 				wait(1)
 				TextLabel.Text = "Copied Script Lasest Version BaconHub!"
 				wait(1.5)
@@ -1326,26 +1326,38 @@ AutoPlayer: ]].. tostring(AutoPlayer))
 		function lol(num,keke)
 			local antilag = 0
 			local speed = 0.02
+			local tyingarrow = {}
 			while true do
-				task.wait()
+				antilag += 1
+				if antilag >= 10 then
+					antilag = 0
+					task.wait()
+				end
 				if AutoPlayer then
 					if Player > 0 then
 						for i,v in pairs(main.MatchFrame["KeySync".. Player]["Arrow".. num].Notes:GetChildren()) do
 							if v:IsA("ImageLabel") then
-								if v.Position.Y.Scale <= speed then
+								if v.Position.Y.Scale <= speed and not table.find(tyingarrow,v) then
+									table.insert(tyingarrow,v)
 									vim:SendKeyEvent(1,Enum.KeyCode[keke],0,nil)
-									local hold = main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:WaitForChild(v.Name,0.1)
-									local antilag2 = 0
-									if hold and hold.Size.Y.Scale > 0 then
-										repeat 
-											task.wait()
-											if not hold then 
-												break 
-											end 
-										until hold.Position.Y.Scale+hold.Size.Y.Scale <= speed
-									end
-									vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
-									break
+									spawn(function()
+										local hold = main.MatchFrame["KeySync".. Player]["Arrow".. num].Hold.Hitbox:WaitForChild(v.Name,0.1)
+										local antilag2 = 0
+										if hold and hold.Size.Y.Scale > 0 then
+											repeat 
+												antilag += 1
+												if antilag >= 10 then
+													antilag = 0
+													task.wait()
+												end
+												if not hold then 
+													break 
+												end 
+											until hold.Position.Y.Scale+hold.Size.Y.Scale <= speed
+										end
+										vim:SendKeyEvent(0,Enum.KeyCode[keke],0,nil) 
+										table.remove(tyingarrow,i)
+									end)
 								end
 							end
 						end
