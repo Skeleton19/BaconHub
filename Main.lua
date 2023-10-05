@@ -277,7 +277,20 @@ local Succes = false
 local Cancel = false
 local linkkey = 'https://mboost.me/a/6j1'
 function getkey()
-	return 9999
+local succes,key,reason = CheckHttpsIsVaild("https://mboost.me/k/18c")
+	if not succes then
+		return false,reason
+	end
+	key = key:split([[<br /><input id="key" class="round" type="text" readonly="" placeholder="Error getting key..." value="]])[2]
+	if key then
+		key = key:split([[" /><br /><button class="round">Copy</button>]])[1]
+	else
+		return 9999
+	end
+	if not tonumber(key) then
+		return 9999
+	end
+	return key
 end
 if not isfile("BaconHubKey.txt") then
 	writefile("BaconHubKey.txt","")
@@ -397,10 +410,11 @@ if key ~= oldkey then
 		local key,reason = getkey()
 		if not key then
 			warn("Error key system: ".. reason)
-			Succes = true
 			return
 		end
-		if KeyBox.Text == key and not Succes then
+		print(key)
+		if tonumber(KeyBox.Text) == key then
+			Check.Visible = false
 			Check.Text = "CORRECT!"
 			writefile("BaconHubKey.txt",key)
 			Succes = true
